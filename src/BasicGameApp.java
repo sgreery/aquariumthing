@@ -42,12 +42,15 @@ public class BasicGameApp implements Runnable {
 	public Image basketballguyPic;
 	public Image hoopPic;
 	public Image backgroundPic;
+	public Image onePic;
+	int x = 0;
 
    //Declare the objects used in the program
    //These are things that are made up of more than one variable type
 	private Celtic basketballPlayer;
 	private Celtic basketball;
 	private Celtic hoop;
+	private Celtic one;
 
 
    // Main method definition
@@ -73,8 +76,10 @@ public class BasicGameApp implements Runnable {
 		basketballPic = Toolkit.getDefaultToolkit().getImage("goldbaskteball.png");
 		basketball = new Celtic(500,500);
 		hoopPic = Toolkit.getDefaultToolkit().getImage("aihoop.png");
-		hoop = new Celtic(200, 600);
+		hoop = new Celtic(565, 10);
 		backgroundPic = Toolkit.getDefaultToolkit().getImage("aicourt.png");
+		one = new Celtic (100, 100);
+		onePic = Toolkit.getDefaultToolkit().getImage("one.png");
 
 	}// BasicGameApp()
 
@@ -103,23 +108,18 @@ public class BasicGameApp implements Runnable {
       //calls the move( ) code in the objects
 		basketballPlayer.move();
 		basketball.move();
-		hoop.move();
 		basketballPlayer.bounce();
 		basketball.bounce();
-		hoop.bounce();
 		collisions();
 	}
 	public void collisions(){
-		if(hoop.rec.intersects(basketballPlayer.rec) && hoop.isCrashing == false){
+		if(hoop.rec.intersects(basketball.rec) && hoop.isCrashing == false){
 			System.out.println("explosion!");
 			hoop.dx = -hoop.dx;
 			hoop.dy = -hoop.dy;
-			basketballPlayer.dx = -basketballPlayer.dx;
-			basketballPlayer.dy = -basketballPlayer.dy;
-			basketballPlayer.width = basketballPlayer.width + 20;
-			basketballPlayer.height = basketballPlayer.height + 20;
-			hoop.dx = hoop.dx * 2;
-			hoop.dy = hoop.dy * 2;
+			basketball.dx = -basketballPlayer.dx;
+			basketball.dy = -basketballPlayer.dy;
+            x=x +1;
 			hoop.isCrashing = true;
 		}
 		if(!hoop.rec.intersects(basketballPlayer.rec)){
@@ -131,8 +131,6 @@ public class BasicGameApp implements Runnable {
 			basketball.dy = -basketball.dy;
 			basketballPlayer.dx = -basketballPlayer.dx;
 			basketballPlayer.dy = -basketballPlayer.dy;
-			basketballPlayer.width = basketballPlayer.width + 20;
-			basketballPlayer.height = basketballPlayer.height + 20;
 			basketball.dx = basketball.dx * 2;
 			basketball.dy = basketball.dy * 2;
 			basketball.isCrashing = true;
@@ -195,7 +193,11 @@ public class BasicGameApp implements Runnable {
 		g.drawImage(basketballguyPic, basketballPlayer.xpos, basketballPlayer.ypos, basketballPlayer.width, basketballPlayer.height, null);
 		g.drawImage(basketballPic, basketball.xpos, basketball.ypos, basketball.width, basketball.height, null);
 		g.drawImage(hoopPic, hoop.xpos, hoop.ypos, hoop.width, hoop.height, null);
-
+		if(x > 1){
+			g.drawImage(onePic, 100, 100, WIDTH, HEIGHT, null);
+		}
+		System.out.println(x);
+		g.drawRect(basketball.rec.x, basketball.rec.y, basketball.rec.width, basketball.rec.height);
 
 		g.dispose();
 
