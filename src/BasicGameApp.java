@@ -43,7 +43,10 @@ public class BasicGameApp implements Runnable {
 	public Image hoopPic;
 	public Image backgroundPic;
 	public Image onePic;
+	public Image twoPic;
 	int x = 0;
+	boolean h;
+	boolean j;
 
    //Declare the objects used in the program
    //These are things that are made up of more than one variable type
@@ -51,6 +54,7 @@ public class BasicGameApp implements Runnable {
 	private Celtic basketball;
 	private Celtic hoop;
 	private Celtic one;
+	private Celtic two;
 
 
    // Main method definition
@@ -80,6 +84,8 @@ public class BasicGameApp implements Runnable {
 		backgroundPic = Toolkit.getDefaultToolkit().getImage("aicourt.png");
 		one = new Celtic (100, 100);
 		onePic = Toolkit.getDefaultToolkit().getImage("one.png");
+		two = new Celtic (100, 100);
+		twoPic = Toolkit.getDefaultToolkit().getImage("two.png");
 
 	}// BasicGameApp()
 
@@ -115,10 +121,10 @@ public class BasicGameApp implements Runnable {
 	public void collisions(){
 		if(hoop.rec.intersects(basketball.rec) && hoop.isCrashing == false){
 			System.out.println("explosion!");
-			hoop.dx = -hoop.dx;
-			hoop.dy = -hoop.dy;
-			basketball.dx = -basketballPlayer.dx;
-			basketball.dy = -basketballPlayer.dy;
+//			hoop.dx = -hoop.dx;
+//			hoop.dy = -hoop.dy;
+			basketball.dx = -basketball.dx;
+			basketball.dy = -basketball.dy;
             x=x +1;
 			hoop.isCrashing = true;
 		}
@@ -193,11 +199,21 @@ public class BasicGameApp implements Runnable {
 		g.drawImage(basketballguyPic, basketballPlayer.xpos, basketballPlayer.ypos, basketballPlayer.width, basketballPlayer.height, null);
 		g.drawImage(basketballPic, basketball.xpos, basketball.ypos, basketball.width, basketball.height, null);
 		g.drawImage(hoopPic, hoop.xpos, hoop.ypos, hoop.width, hoop.height, null);
-		if(x > 1){
-			g.drawImage(onePic, 100, 100, WIDTH, HEIGHT, null);
+		if(h = true){
+			g.drawImage(onePic, 100, 100, 50, 50, null);
+		}
+		if(j = true){
+			g.drawImage(twoPic, 100, 100, 50, 50, null);
+
+		if(x == 1){
+			h=true;
+
+		}
+		if(x == 2){
+			h=false;
+			j=true;
 		}
 		System.out.println(x);
-		g.drawRect(basketball.rec.x, basketball.rec.y, basketball.rec.width, basketball.rec.height);
 
 		g.dispose();
 
