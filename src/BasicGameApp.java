@@ -38,6 +38,7 @@ public class BasicGameApp implements Runnable {
 	public JPanel panel;
 
 	public BufferStrategy bufferStrategy;
+	//Declares the various images which are used
 	public Image basketballPic;
 	public Image basketballguyPic;
 	public Image hoopPic;
@@ -46,11 +47,14 @@ public class BasicGameApp implements Runnable {
 	public Image twoPic;
 	public Image threePic;
 	public Image finalpointPic;
+	public Image winScreenPic;
+	//Point counter and variables to use the counter to create different interactions
 	int x = 0;
 	boolean h = false;
 	boolean j = false;
 	boolean k = false;
 	boolean l = false;
+	boolean z = false;
 
 	//Declare the objects used in the program
 	//These are things that are made up of more than one variable type
@@ -61,6 +65,8 @@ public class BasicGameApp implements Runnable {
 	private Celtic two;
 	private Celtic three;
 	private Celtic finalpoint;
+	private Celtic winScreen;
+
 
 
 	// Main method definition
@@ -96,6 +102,11 @@ public class BasicGameApp implements Runnable {
 		threePic = Toolkit.getDefaultToolkit().getImage("three.png");
 		finalpointPic = Toolkit.getDefaultToolkit().getImage("finalpoint.png");
 		finalpoint = new Celtic(350, 100);
+		winScreen = new Celtic (0,0);
+		winScreenPic = Toolkit.getDefaultToolkit().getImage("win.png");
+
+
+
 
 	}// BasicGameApp()
 
@@ -120,19 +131,18 @@ public class BasicGameApp implements Runnable {
 
 
 	public void moveThings() {
-		//calls the move( ) code in the objects
+		//calls the move( ), bounce ( ), and wrap ( ) code in the objects
 		basketballPlayer.move();
 		basketball.move();
-		basketballPlayer.bounce();
+		basketballPlayer.wrap();
 		basketball.bounce();
 		collisions();
 	}
 
 	public void collisions() {
+		//Creates the collision reaction between the basketball and the hoop where the score (x) increases by one
 		if (hoop.rec.intersects(basketball.rec) && hoop.isCrashing == false) {
 			System.out.println("explosion!");
-//			hoop.dx = -hoop.dx;
-//			hoop.dy = -hoop.dy;
 			basketball.dx = -basketball.dx;
 			basketball.dy = -basketball.dy;
 			x = x + 1;
@@ -141,6 +151,7 @@ public class BasicGameApp implements Runnable {
 		if (!hoop.rec.intersects(basketballPlayer.rec)) {
 			hoop.isCrashing = false;
 		}
+		//Creates the reaction between the basketball and the player where they both ricochet off of each other.
 		if (basketball.rec.intersects(basketballPlayer.rec) && hoop.isCrashing == false) {
 			System.out.println("explosion!");
 			basketball.dx = -basketball.dx;
@@ -207,6 +218,7 @@ public class BasicGameApp implements Runnable {
 		g.drawImage(basketballguyPic, basketballPlayer.xpos, basketballPlayer.ypos, basketballPlayer.width, basketballPlayer.height, null);
 		g.drawImage(basketballPic, basketball.xpos, basketball.ypos, basketball.width, basketball.height, null);
 		g.drawImage(hoopPic, hoop.xpos, hoop.ypos, hoop.width, hoop.height, null);
+		//Utilizes the score to demonstrate the score
 		if (h == true) {
 			g.drawImage(onePic, 100, 100, 50, 50, null);
 		}
@@ -216,6 +228,9 @@ public class BasicGameApp implements Runnable {
 		if (k == true) {
 			g.drawImage(threePic, 100, 100, 50, 50, null);
 			g.drawImage(finalpointPic, finalpoint.xpos, finalpoint.ypos, 200, 200, null);
+		}
+		if (z == true) {
+			g.drawImage(winScreenPic, 0, 0, 1000, 700, null);
 		}
 			if (x == 1) {
 				h = true;
@@ -229,6 +244,11 @@ public class BasicGameApp implements Runnable {
 				j = false;
 				k = true;
 				l = true;
+			}
+			if (x == 4) {
+				k = false;
+				l = false;
+				z = true;
 			}
 			System.out.println(x);
 

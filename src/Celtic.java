@@ -46,6 +46,7 @@ public class Celtic {
         rec = new Rectangle(xpos, ypos, width, height);
  
     }
+    //The bounce method lets each character move to the edge of the screen before reversing their momentum the other direction.
     public void bounce(){
         if(xpos>1000){
             dx=-dx;
@@ -58,6 +59,29 @@ public class Celtic {
         }
         if(ypos<0){
             dy=-dy;
+        }
+        rec = new Rectangle(xpos, ypos, width, height);
+    }
+    //The wrap method lets each character move to the edge of the screen before teleporting to the direct opposite side of the screen.
+    public void wrap(){
+        if (xpos>1000){
+            xpos=xpos-1000;
+
+        }
+        if (ypos>700){
+            ypos=ypos-700;
+
+        }
+        if (xpos<0){
+            xpos=xpos+900;
+
+
+        }
+        if (ypos<0){
+            ypos=ypos+600;
+
+
+
         }
         rec = new Rectangle(xpos, ypos, width, height);
     }
